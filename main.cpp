@@ -174,7 +174,7 @@ void printInventory(double inventory[5]){
     cout << "Paper: \t\t" << inventory[2] << " sheets" << endl;
     cout << "Ink: \t\t" << inventory[3] << " ml" << endl;
     cout << "Money: \t\t$" << setprecision(2) << fixed << inventory[4] << endl;
-    cout << setprecision(0) << endl;
+    cout << setprecision(0);
 }
 
 bool typeTrap(){
@@ -253,7 +253,13 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
                         if(typeTrap())
                             continue;
 
-                        if(choiceSupply == 1){
+                        if(quantity < 0){
+                            system("cls");
+                            cout << "You cannot buy a negative amount!" << endl;
+                            system("pause");
+                            continue;
+                        }
+                        else if(choiceSupply == 1){
                             if(inventory[4] < quantity*0.17){
                                 system("cls");
                                 cout << "You do not have enough money!" << endl;
@@ -344,7 +350,13 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
                         if(typeTrap())
                             continue;
 
-                        if(choiceSupply == 1 && quantity <= inventory[0]){
+                        if(quantity < 0){
+                            system("cls");
+                            cout << "You cannot sell a negative amount!" << endl;
+                            system("pause");
+                            continue;
+                        }
+                        else if(choiceSupply == 1 && quantity <= inventory[0]){
                             inventory[4] += quantity*0.10;
                             inventory[0] -= quantity;
                             continue;
@@ -394,6 +406,11 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
             lineBreak(companyName);
             printInventory(inventory);
             lineBreak(companyName);
+            cout << "Newspaper Ads: " << advertisements[0] << endl;
+            cout << "Radio Ads: " << advertisements[1] << endl;
+            cout << "Television Ads: " << advertisements[2] << endl;
+            cout << "Celebrity Endorsements: " << advertisements[3] << endl;
+            lineBreak(companyName);
             cout << "[0] Exit Menu" << endl;
             cout << "[1] Purchase" << endl;
             cout << "[2] Sell" << endl;
@@ -414,6 +431,11 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
                     cout << advertisers(advertiser) << endl;
                     lineBreak(companyName);
                     printInventory(inventory);
+                    lineBreak(companyName);
+                    cout << "Newspaper Ads: " << advertisements[0] << endl;
+                    cout << "Radio Ads: " << advertisements[1] << endl;
+                    cout << "Television Ads: " << advertisements[2] << endl;
+                    cout << "Celebrity Endorsements: " << advertisements[3] << endl;
                     lineBreak(companyName);
                     cout << "[0] Exit Menu" << endl;
                     cout << "[1] Newspaper Ads: $10 per day" << endl;
@@ -442,7 +464,13 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
                         if(typeTrap())
                             continue;
 
-                        if(choiceAdvertise == 1){
+                        if(quantity < 0){
+                            system("cls");
+                            cout << "You cannot buy a negative amount!" << endl;
+                            system("pause");
+                            continue;
+                        }
+                        else if(choiceAdvertise == 1){
                             if(inventory[4] < quantity*10){
                                 system("cls");
                                 cout << "You do not have enough money!" << endl;
@@ -506,6 +534,11 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
                     lineBreak(companyName);
                     printInventory(inventory);
                     lineBreak(companyName);
+                    cout << "Newspaper Ads: " << advertisements[0] << endl;
+                    cout << "Radio Ads: " << advertisements[1] << endl;
+                    cout << "Television Ads: " << advertisements[2] << endl;
+                    cout << "Celebrity Endorsements: " << advertisements[3] << endl;
+                    lineBreak(companyName);
                     cout << "[0] Exit Menu" << endl;
                     cout << "[1] Newspaper Ads" << endl;
                     cout << "[2] Radio Ads" << endl;
@@ -533,7 +566,13 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
                         if(typeTrap())
                             continue;
 
-                        if(choiceAdvertise == 1 && quantity <= advertisements[0]){
+                        if(quantity < 0){
+                            system("cls");
+                            cout << "You cannot sell a negative amount!" << endl;
+                            system("pause");
+                            continue;
+                        }
+                        else if(choiceAdvertise == 1 && quantity <= advertisements[0]){
                             advertisements[0] -= quantity;
                             continue;
                         }
