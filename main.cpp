@@ -13,7 +13,7 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
 void advertiserMenu(string companyName, double inventory[5], int advertiser, string name, int advertisements[4]);
 void employmentMenu(string companyName, double inventory[5], int &supplier, int &advertiser, string name);
 void locationMenu(string companyName, double inventory[5], string name, int locations[6]);
-void startDay(string companyName, double inventory[5], string name, int &customers, int advertiser, int &day, int locations[6], int advertisements[4]);
+void startDay(string companyName, double inventory[5], string name, int &customers, int advertiser, int &day, int locations[6], int advertisements[4], int supplier);
 
 string suppliers(int id);
 string advertisers(int id);
@@ -83,7 +83,7 @@ int main(){
             locationMenu(companyName, inventory, name, locations);
         }
         else if(choiceMain == 5){
-            startDay(companyName, inventory, name, customers, advertiser, day, locations, advertisements);
+            startDay(companyName, inventory, name, customers, advertiser, day, locations, advertisements, supplier);
             if(inventory[4] < supplierPrices[advertiser-1]){
                 system("cls");
                 cout << "You cannot afford your advertiser!" << endl;
@@ -1065,7 +1065,7 @@ void locationMenu(string companyName, double inventory[5], string name, int loca
     }
 }
 
-void startDay(string companyName, double inventory[5], string name, int &customers, int advertiser, int &day, int locations[6], int advertisements[4]){
+void startDay(string companyName, double inventory[5], string name, int &customers, int advertiser, int &day, int locations[6], int advertisements[4], int supplier){
     int newCustomers;
 
     system("cls");
@@ -1105,14 +1105,14 @@ void startDay(string companyName, double inventory[5], string name, int &custome
     cout << "Returning Customers: " << customers << endl;
     lineBreak(companyName);
 
-    cout << setprecision(2) << fixed << "\"Medicine\" Sales: $" << newCustomers*19.99 << endl;
-    cout << "Contract Payments: $" << customers*4.99 << endl;
+    cout << setprecision(2) << fixed << "\"Medicine\" Sales: $" << newCustomers*19.99*(supplier/10) << endl;
+    cout << "Contract Payments: $" << customers*4.99*(supplier/10) << endl;
     lineBreak(companyName);
 
-    cout << "Total Returns: $" << newCustomers*19.99 + customers*4.99 << endl;
+    cout << "Total Returns: $" << newCustomers*19.99*(supplier/10) + customers*4.99*(supplier/10) << endl;
     cout << setprecision(0);
 
-    inventory[4] += newCustomers*19.99 + customers*4.99;
+    inventory[4] += newCustomers*19.99*(supplier/10) + customers*4.99*(supplier/10);
     customers += newCustomers;
     day++;
 
