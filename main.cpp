@@ -6,11 +6,15 @@ using namespace std;
 
 void lineBreak(string companyName);
 void printInventory(double inventory[5]);
+
+bool typeTrap();
+
 void supplierMenu(string companyName, double inventory[5], int supplier, string name);
 void advertiserMenu(string companyName, double inventory[5], int advertiser, string name, int advertisements[4]);
 void employmentMenu(string companyName, double inventory[5], int &supplier, int &advertiser, string name);
 void locationMenu(string companyName, double inventory[5], string name, int locations[6]);
 void startDay(string companyName, double inventory[5], string name, int &customers, int advertiser, int &day, int locations[6], int advertisements[4]);
+
 string suppliers(int id);
 string advertisers(int id);
 
@@ -47,11 +51,17 @@ int main(){
         cout << "[5] Start Day" << endl;
         cout << name << " >>> ";
         cin >> choiceMain;
+        if(typeTrap())
+            continue;
+
         if(choiceMain == 0){
             char exit;
             system("cls");
             cout << "Are you sure you want to leave [y/n]? ";
             cin >> exit;
+            if(typeTrap())
+                continue;
+
             if(exit == 'y'){
                 running = false;
                 continue;
@@ -167,6 +177,17 @@ void printInventory(double inventory[5]){
     cout << setprecision(0) << endl;
 }
 
+bool typeTrap(){
+    if(!cin.good()){
+        cout << "ERROR: Invalid Input" << endl;
+        cin.clear();
+        cin.ignore(128, '\n');
+        system("pause");
+        return true;
+    }
+    return false;
+}
+
 void supplierMenu(string companyName, double inventory[5], int supplier, string name){
     bool running = true;
     int choiceSupply;
@@ -189,6 +210,9 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
             cout << "[2] Sell" << endl;
             cout << name << " >>> ";
             cin >> choiceSupply;
+            if(typeTrap())
+                continue;
+
             if(choiceSupply == 0){
                 running = false;
                 continue;
@@ -209,6 +233,9 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
                     cout << "[4] Ink: $10.00 per liter" << endl;
                     cout << name << " >>> ";
                     cin >> choiceSupply;
+                    if(typeTrap())
+                        continue;
+
                     if(choiceSupply < 0 || choiceSupply > 4){
                         system("cls");
                         cout << "That item does not exist!" << endl;
@@ -223,6 +250,9 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
                         int quantity;
                         cout << "How many do you want? ";
                         cin >> quantity;
+                        if(typeTrap())
+                            continue;
+
                         if(choiceSupply == 1){
                             if(inventory[4] < quantity*0.17){
                                 system("cls");
@@ -294,6 +324,9 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
                     cout << "[4] Ink: $8.00 per liter" << endl;
                     cout << name << " >>> ";
                     cin >> choiceSupply;
+                    if(typeTrap())
+                        continue;
+
                     if(choiceSupply < 0 || choiceSupply > 4){
                         system("cls");
                         cout << "That item does not exist!" << endl;
@@ -308,6 +341,9 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
                         int quantity;
                         cout << "How many do you want to sell? ";
                         cin >> quantity;
+                        if(typeTrap())
+                            continue;
+
                         if(choiceSupply == 1 && quantity <= inventory[0]){
                             inventory[4] += quantity*0.10;
                             inventory[0] -= quantity;
@@ -363,6 +399,9 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
             cout << "[2] Sell" << endl;
             cout << name << " >>> ";
             cin >> choiceAdvertise;
+            if(typeTrap())
+                continue;
+
             if(choiceAdvertise == 0){
                 running = false;
                 continue;
@@ -383,6 +422,9 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
                     cout << "[4] Celebrity Endorsements: $1500 per day" << endl;
                     cout << name << " >>> ";
                     cin >> choiceAdvertise;
+                    if(typeTrap())
+                        continue;
+
                     if(choiceAdvertise < 0 || choiceAdvertise > 4){
                         system("cls");
                         cout << "That item does not exist!" << endl;
@@ -397,6 +439,9 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
                         int quantity;
                         cout << "How many do you want? ";
                         cin >> quantity;
+                        if(typeTrap())
+                            continue;
+
                         if(choiceAdvertise == 1){
                             if(inventory[4] < quantity*10){
                                 system("cls");
@@ -468,6 +513,9 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
                     cout << "[4] Celebrity Endorsements" << endl;
                     cout << name << " >>> ";
                     cin >> choiceAdvertise;
+                    if(typeTrap())
+                        continue;
+
                     if(choiceAdvertise < 0 || choiceAdvertise > 4){
                         system("cls");
                         cout << "That item does not exist!" << endl;
@@ -482,6 +530,9 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
                         int quantity;
                         cout << "How many do you want to sell? ";
                         cin >> quantity;
+                        if(typeTrap())
+                            continue;
+
                         if(choiceAdvertise == 1 && quantity <= advertisements[0]){
                             advertisements[0] -= quantity;
                             continue;
@@ -525,6 +576,9 @@ void employmentMenu(string companyName, double inventory[5], int &supplier, int 
         cout << "[2] Advertiser" << endl;
         cout << name << " >>> ";
         cin >> choiceEmploy;
+        if(typeTrap())
+            continue;
+
         if(choiceEmploy == 0){
             running = false;
             continue;
@@ -551,6 +605,9 @@ void employmentMenu(string companyName, double inventory[5], int &supplier, int 
                 cout << "[10] " << suppliers(10) << "\t\t\t$1000000.00 per day" << endl;
                 cout << name << " >>> ";
                 cin >> choiceEmploy;
+                if(typeTrap())
+                    continue;
+
                 if(choiceEmploy > 10 || choiceEmploy < 0){
                     system("cls");
                     cout << "That item does not exist!" << endl;
@@ -705,6 +762,9 @@ void employmentMenu(string companyName, double inventory[5], int &supplier, int 
                 cout << "[10] " << advertisers(10) << "\t\t\t$1000000.00 per day" << endl;
                 cout << name << " >>> ";
                 cin >> choiceEmploy;
+                if(typeTrap())
+                    continue;
+
                 if(choiceEmploy > 10 || choiceEmploy < 0){
                     system("cls");
                     cout << "That item does not exist!" << endl;
@@ -861,6 +921,9 @@ void locationMenu(string companyName, double inventory[5], string name, int loca
         cout << "[2] Sell" << endl;
         cout << name << " >>> ";
         cin >> choiceLocation;
+        if(typeTrap())
+            continue;
+
         if(choiceLocation == 0){
             running = false;
             continue;
@@ -889,6 +952,9 @@ void locationMenu(string companyName, double inventory[5], string name, int loca
                 cout << "[6] Sponsorships        $5000.00 per day" << endl;
                 cout << name << " >>> ";
                 cin >> choiceLocation;
+                if(typeTrap())
+                    continue;
+
                 if(choiceLocation == 0){
                     choosing = false;
                     continue;
@@ -953,6 +1019,9 @@ void locationMenu(string companyName, double inventory[5], string name, int loca
                 cout << "[6] Sponsorships        $4500.00" << endl;
                 cout << name << " >>> ";
                 cin >> choiceLocation;
+                if(typeTrap())
+                    continue;
+
                 if(choiceLocation == 0){
                     choosing = false;
                     continue;
