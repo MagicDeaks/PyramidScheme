@@ -323,7 +323,7 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
                             inventory[2] -= quantity;
                             continue;
                         }
-                        else if(choiceSupply == 4 && quantity <= inventory[3]){
+                        else if(choiceSupply == 4 && quantity*1000 <= inventory[3]){
                             inventory[4] += quantity*8.00;
                             inventory[3] -= quantity*1000;
                             continue;
