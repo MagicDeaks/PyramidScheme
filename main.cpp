@@ -1144,14 +1144,14 @@ void startDay(string companyName, double inventory[5], string name, int &custome
     cout << "Returning Customers: " << customers << endl;
     lineBreak(companyName);
 
-    cout << setprecision(2) << fixed << "\"Medicine\" Sales: $" << newCustomers*19.99*(supplier/10) << endl;
-    cout << "Contract Payments: $" << customers*4.99*(supplier/10) << endl;
+    cout << setprecision(2) << fixed << "\"Medicine\" Sales: $" << newCustomers*19.99*(1+supplier/10) << endl;
+    cout << "Contract Payments: $" << customers*4.99*(1+supplier/10) << endl;
     lineBreak(companyName);
 
-    cout << "Total Returns: $" << newCustomers*19.99*(supplier/10) + customers*4.99*(supplier/10) << endl;
+    cout << "Total Returns: $" << newCustomers*19.99*(1+supplier/10) + customers*4.99*(1+supplier/10) << endl;
     cout << setprecision(0);
 
-    inventory[4] += newCustomers*19.99*(supplier/10) + customers*4.99*(supplier/10);
+    inventory[4] += newCustomers*19.99*(1+supplier/10) + customers*4.99*(1+supplier/10);
     customers += newCustomers;
     day++;
 
