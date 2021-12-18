@@ -1,6 +1,0 @@
-# depslib dependency file v1.0
-1639769204 source:c:\temp\deacon kearl\mlm\main.cpp
-	<iostream>
-	<windows.h>
-	<iomanip>
-
