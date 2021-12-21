@@ -154,6 +154,46 @@ int main(){
             else if(locations[5] != 0){
                 inventory[4] -= locations[1]*5000;
             }
+            if(advertisements[0]*10 > inventory[4]){
+                system("cls");
+                cout << "You cannot afford your newspaper ads!" << endl;
+                cout << "They have quit!" << endl;
+                advertisements[0] = 0;
+                system("pause");
+            }
+            else if(advertisements != 0){
+                inventory[4] -= advertisements[0]*10;
+            }
+            if(advertisements[1]*30 > inventory[4]){
+                system("cls");
+                cout << "You cannot afford your newspaper ads!" << endl;
+                cout << "They have quit!" << endl;
+                advertisements[1] = 0;
+                system("pause");
+            }
+            else if(advertisements != 0){
+                inventory[4] -= advertisements[1]*30;
+            }
+            if(advertisements[2]*100 > inventory[4]){
+                system("cls");
+                cout << "You cannot afford your newspaper ads!" << endl;
+                cout << "They have quit!" << endl;
+                advertisements[2] = 0;
+                system("pause");
+            }
+            else if(advertisements != 0){
+                inventory[4] -= advertisements[2]*100;
+            }
+            if(advertisements[3]*1500 > inventory[4]){
+                system("cls");
+                cout << "You cannot afford your newspaper ads!" << endl;
+                cout << "They have quit!" << endl;
+                advertisements[3] = 0;
+                system("pause");
+            }
+            else if(advertisements != 0){
+                inventory[4] -= advertisements[3]*1500;
+            }
         }
     }
     system("pause");
