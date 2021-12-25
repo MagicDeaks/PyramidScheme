@@ -13,7 +13,7 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
 void advertiserMenu(string companyName, double inventory[5], int advertiser, string name, int advertisements[4]);
 void employmentMenu(string companyName, double inventory[5], int &supplier, int &advertiser, string name);
 void locationMenu(string companyName, double inventory[5], string name, int locations[6]);
-void startDay(string companyName, double inventory[5], string name, int &customers, int advertiser, int &day, int locations[6], int advertisements[4], int supplier);
+void startDay(string companyName, double inventory[5], string name, int &customers, int advertiser, int &day, int locations[6], int advertisements[4], int supplier, double reputation);
 
 string suppliers(int id);
 string advertisers(int id);
@@ -30,12 +30,62 @@ int main(){
     int customers = 0;
     int advertiser = 0;
     int day = 1;
+    double reputation = 1;
+    int extraProb;
 
     cout << "What is your name? ";
     cin >> name;
     cout << "What is the name of your company? ";
     cin >> companyName;
     while(running){
+        if(reputation <= 0){
+            cout << "Your bad reputation led to the FBI catching you!" << endl;
+            cout << "You lose!" << endl;
+            lineBreak(companyName);
+            cout << "STATS" << endl;
+            cout << "Company Name: " << companyName << endl;
+            cout << "Owner: " << name << endl;
+            cout << "Day: " << day << endl;
+            cout << "Members: " << customers << endl;
+            cout << "Money: " << inventory[4] << endl;
+            cout << "\n=== GAME OVER ===" << endl;
+            running = false;
+            system("pause");
+        }
+        if(customers >= 7800000000){
+            cout << "Everyone in the world has joined your scheme!" << endl;
+            cout << "The company has collapsed due to lack of new customers and you walk away rich!" << endl;
+            cout << "You win!" << endl;
+            lineBreak(companyName);
+            cout << "STATS" << endl;
+            cout << "Company Name: " << companyName << endl;
+            cout << "Owner: " << name << endl;
+            cout << "Day: " << day << endl;
+            cout << "Members: " << customers << endl;
+            cout << "Money: " << inventory[4] << endl;
+            cout << "\n=== GAME OVER ===" << endl;
+            running = false;
+            system("pause");
+        }
+        if(day > 14){
+            extraProb = rand()%100+1;
+            if(extraProb == 17){
+                system("cls");
+                cout << "Your recent insider trading was hugely successful!" << endl;
+                cout << "You made " << inventory[4]*0.1 << setprecision(2) << fixed << " dollars!" << endl;
+                inventory[4] += inventory[4]*0.1;
+                cout << setprecision(0);
+                system("pause");
+            }
+            if(extraProb == 29){
+                system("cls");
+                cout << "Your recent insider trading was discovered by the FBI!" << endl;
+                cout << "You lost " << inventory[4]*0.1 << setprecision(2) << fixed << " dollars!" << endl;
+                inventory[4] -= inventory[4]*0.1;
+                cout << setprecision(0);
+                system("pause");
+            }
+        }
         system("cls");
         cout << companyName << " Portfolio" << endl;
         cout << "Day " << day << endl;
@@ -83,13 +133,15 @@ int main(){
             locationMenu(companyName, inventory, name, locations);
         }
         else if(choiceMain == 5){
-            startDay(companyName, inventory, name, customers, advertiser, day, locations, advertisements, supplier);
+            startDay(companyName, inventory, name, customers, advertiser, day, locations, advertisements, supplier, reputation);
+            reputation += 1/(customers+1);
             if(inventory[4] < supplierPrices[advertiser-1]){
                 system("cls");
                 cout << "You cannot afford your advertiser!" << endl;
                 cout << "They have quit!" << endl;
                 advertiser = 0;
                 system("pause");
+                reputation -= 1/(customers+1);
             }
             else if(advertiser != 0){
                 inventory[4] -= supplierPrices[advertiser-1];
@@ -100,6 +152,7 @@ int main(){
                 cout << "They have quit!" << endl;
                 supplier = 0;
                 system("pause");
+                reputation -= 1/(customers+1);
             }
             else if(supplier != 0){
                 inventory[4] -= supplierPrices[supplier-1];
@@ -110,6 +163,7 @@ int main(){
                 cout << "They have quit!" << endl;
                 locations[1] = 0;
                 system("pause");
+                reputation -= 1/(customers+1);
             }
             else if(locations[1] != 0){
                 inventory[4] -= locations[1]*20;
@@ -120,6 +174,7 @@ int main(){
                 cout << "They have quit!" << endl;
                 locations[2] = 0;
                 system("pause");
+                reputation -= 1/(customers+1);
             }
             else if(locations[2] != 0){
                 inventory[4] -= locations[2]*150;
@@ -130,6 +185,7 @@ int main(){
                 cout << "They have quit!" << endl;
                 locations[3] = 0;
                 system("pause");
+                reputation -= 1/(customers+1);
             }
             else if(locations[3] != 0){
                 inventory[4] -= locations[3]*500;
@@ -140,6 +196,7 @@ int main(){
                 cout << "They have quit!" << endl;
                 locations[4] = 0;
                 system("pause");
+                reputation -= 1/(customers+1);
             }
             else if(locations[4] != 0){
                 inventory[4] -= locations[4]*1000;
@@ -150,6 +207,7 @@ int main(){
                 cout << "They have quit!" << endl;
                 locations[5] = 0;
                 system("pause");
+                reputation -= 1/(customers+1);
             }
             else if(locations[5] != 0){
                 inventory[4] -= locations[1]*5000;
@@ -160,40 +218,52 @@ int main(){
                 cout << "They have quit!" << endl;
                 advertisements[0] = 0;
                 system("pause");
+                reputation -= 1/(customers+1);
             }
             else if(advertisements != 0){
                 inventory[4] -= advertisements[0]*10;
             }
             if(advertisements[1]*30 > inventory[4]){
                 system("cls");
-                cout << "You cannot afford your newspaper ads!" << endl;
+                cout << "You cannot afford your radio ads!" << endl;
                 cout << "They have quit!" << endl;
                 advertisements[1] = 0;
                 system("pause");
+                reputation -= 1/(customers+1);
             }
             else if(advertisements != 0){
                 inventory[4] -= advertisements[1]*30;
             }
             if(advertisements[2]*100 > inventory[4]){
                 system("cls");
-                cout << "You cannot afford your newspaper ads!" << endl;
+                cout << "You cannot afford your television ads!" << endl;
                 cout << "They have quit!" << endl;
                 advertisements[2] = 0;
                 system("pause");
+                reputation -= 1/(customers+1);
             }
             else if(advertisements != 0){
                 inventory[4] -= advertisements[2]*100;
             }
             if(advertisements[3]*1500 > inventory[4]){
                 system("cls");
-                cout << "You cannot afford your newspaper ads!" << endl;
+                cout << "You cannot afford your celebrity endorsements!" << endl;
                 cout << "They have quit!" << endl;
                 advertisements[3] = 0;
                 system("pause");
+                reputation -= 1/(customers+1);
             }
             else if(advertisements != 0){
                 inventory[4] -= advertisements[3]*1500;
             }
+        }
+        else if(choiceMain == 1971 && name == "debug" && companyName == "debug"){
+            system("cls");
+            cout << "How much money would you like to add? ";
+            cin >> choiceMain;
+            inventory[4] += choiceMain;
+            cout << "$" << choiceMain << " dollars have been added!" << endl;
+            system("pause");
         }
     }
     system("pause");
@@ -1144,14 +1214,14 @@ void locationMenu(string companyName, double inventory[5], string name, int loca
     }
 }
 
-void startDay(string companyName, double inventory[5], string name, int &customers, int advertiser, int &day, int locations[6], int advertisements[4], int supplier){
+void startDay(string companyName, double inventory[5], string name, int &customers, int advertiser, int &day, int locations[6], int advertisements[4], int supplier, double reputation){
     int newCustomers;
 
     system("cls");
 
     cout << name << "'s Day " << day << " Statistics" << endl;
     lineBreak(companyName);
-    newCustomers = rand()%(advertiser + 2)*locations[0]
+    newCustomers = (int)(rand()%(advertiser + 2)*locations[0]
                     + rand()%(advertiser*2 + 3)*locations[1]
                     + rand()%(advertiser*3 + 4)*locations[2]
                     + rand()%(advertiser*3 + 7)*locations[3]
@@ -1160,7 +1230,7 @@ void startDay(string companyName, double inventory[5], string name, int &custome
                     + advertisements[0]*advertiser*1
                     + advertisements[1]*advertiser*2
                     + advertisements[2]*advertiser*3
-                    + advertisements[3]*advertiser*4;
+                    + advertisements[3]*advertiser*4)*reputation;
 
     if(inventory[0] < newCustomers){
         newCustomers = (int)inventory[0];
