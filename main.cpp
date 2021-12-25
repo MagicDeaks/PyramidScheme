@@ -9,6 +9,7 @@ void printInventory(double inventory[5]);
 
 bool typeTrap();
 
+int titleScreen();
 void supplierMenu(string companyName, double inventory[5], int supplier, string name);
 void advertiserMenu(string companyName, double inventory[5], int advertiser, string name, int advertisements[4]);
 void employmentMenu(string companyName, double inventory[5], int &supplier, int &advertiser, string name);
@@ -33,10 +34,19 @@ int main(){
     double reputation = 1;
     int extraProb;
 
+    choiceMain = titleScreen();
+    if(choiceMain){
+        system("pause");
+        return 0;
+    }
+
+    system("cls");
+
     cout << "What is your name? ";
     cin >> name;
     cout << "What is the name of your company? ";
     cin >> companyName;
+
     while(running){
         if(reputation <= 0){
             cout << "Your bad reputation led to the FBI catching you!" << endl;
@@ -268,6 +278,20 @@ int main(){
     }
     system("pause");
     return 0;
+}
+
+int titleScreen(){
+    system("cls");
+
+    int choice;
+    cout << "$$\\      $$\\           $$\\   $$\\     $$\\       $$\\                                    $$\\\n$$$\\    $$$ |          $$ |  $$ |    \\__|      $$ |                                   $$ |\n$$$$\\  $$$$ |$$\\   $$\\ $$ |$$$$$$\\   $$\\       $$ |      $$$$$$\\ $$\\    $$\\  $$$$$$\\  $$ |\n$$\\$$\\$$ $$ |$$ |  $$ |$$ |\\_$$  _|  $$ |      $$ |     $$  __$$\\\\$$\\  $$  |$$  __$$\\ $$ |\n$$ \\$$$  $$ |$$ |  $$ |$$ |  $$ |    $$ |      $$ |     $$$$$$$$ |\\$$\\$$  / $$$$$$$$ |$$ |\n$$ |\\$  /$$ |$$ |  $$ |$$ |  $$ |$$\\ $$ |      $$ |     $$   ____| \\$$$  /  $$   ____|$$ |\n$$ | \\_/ $$ |\\$$$$$$  |$$ |  \\$$$$  |$$ |      $$$$$$$$\\\\$$$$$$$\\   \\$  /   \\$$$$$$$\\ $$ |\n\\__|     \\__| \\______/ \\__|   \\____/ \\__|      \\________|\\_______|   \\_/     \\_______|\\__|\n\n\n\n$$\\      $$\\                     $$\\                  $$\\     $$\\                         \n$$$\\    $$$ |                    $$ |                 $$ |    \\__|                        \n$$$$\\  $$$$ | $$$$$$\\   $$$$$$\\  $$ |  $$\\  $$$$$$\\ $$$$$$\\   $$\\ $$$$$$$\\   $$$$$$\\      \n$$\\$$\\$$ $$ | \\____$$\\ $$  __$$\\ $$ | $$  |$$  __$$\\\\_$$  _|  $$ |$$  __$$\\ $$  __$$\\     \n$$ \\$$$  $$ | $$$$$$$ |$$ |  \\__|$$$$$$  / $$$$$$$$ | $$ |    $$ |$$ |  $$ |$$ /  $$ |    \n$$ |\\$  /$$ |$$  __$$ |$$ |      $$  _$$<  $$   ____| $$ |$$\\ $$ |$$ |  $$ |$$ |  $$ |    \n$$ | \\_/ $$ |\\$$$$$$$ |$$ |      $$ | \\$$\\ \\$$$$$$$\\  \\$$$$  |$$ |$$ |  $$ |\\$$$$$$$ |    \n\\__|     \\__| \\_______|\\__|      \\__|  \\__| \\_______|  \\____/ \\__|\\__|  \\__| \\____$$ |    \n                                                                            $$\\   $$ |    \n                                                                            \\$$$$$$  |    \n                                                                             \\______/" << endl;
+
+    cout << " ___    _____ _____ _____ _____ _____\n|   |  |   __|_   _|  _  | __  |_   _|\n| | |  |__   | | | |     |    -| | |\n|___|  |_____| |_| |__|__|__|__| |_|\n" << endl;
+    cout << endl;
+    cout << "\n ___      _____ __ __ _____ _____\n|_  |    |   __|  |  |     |_   _|\n _| |_   |   __|-   -|-   -| | |\n|_____|  |_____|__|__|_____| |_|\n" << endl;
+    cout << ">>> ";
+    cin >> choice;
+    return choice;
 }
 
 void lineBreak(string companyName){
