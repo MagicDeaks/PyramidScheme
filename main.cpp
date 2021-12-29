@@ -28,6 +28,7 @@ int main(){
     double supplierPrices[10] = {10.50, 13.70, 20.00, 52.60, 120.00, 258.90, 372.10, 785.30, 1000.00, 1000000.00};
     int choiceMain;
     int supplier = 0;
+    int prevCustomers = 0;
     int customers = 0;
     int advertiser = 0;
     int day = 1;
@@ -48,7 +49,8 @@ int main(){
     cin >> companyName;
 
     while(running){
-        if(reputation <= 0){
+        if(reputation <= 0.35){
+            system("cls");
             cout << "Your bad reputation led to the FBI catching you!" << endl;
             cout << "You lose!" << endl;
             lineBreak(companyName);
@@ -58,11 +60,13 @@ int main(){
             cout << "Day: " << day << endl;
             cout << "Members: " << customers << endl;
             cout << "Money: " << inventory[4] << endl;
+            cout << setprecision(2) << fixed << "Reputation: " << reputation << endl;
             cout << "\n=== GAME OVER ===" << endl;
             running = false;
-            system("pause");
+            continue;
         }
         if(customers >= 7800000000){
+            system("cls");
             cout << "Everyone in the world has joined your scheme!" << endl;
             cout << "The company has collapsed due to lack of new customers and you walk away rich!" << endl;
             cout << "You win!" << endl;
@@ -73,9 +77,10 @@ int main(){
             cout << "Day: " << day << endl;
             cout << "Members: " << customers << endl;
             cout << "Money: " << inventory[4] << endl;
+            cout << setprecision(2) << fixed << "Reputation: " << reputation << endl;
             cout << "\n=== GAME OVER ===" << endl;
             running = false;
-            system("pause");
+            continue;
         }
         if(day > 14){
             extraProb = rand()%100+1;
@@ -97,6 +102,7 @@ int main(){
             }
         }
         system("cls");
+        prevCustomers = customers;
         cout << companyName << " Portfolio" << endl;
         cout << "Day " << day << endl;
         cout << "Members: " << customers << endl;
@@ -144,14 +150,19 @@ int main(){
         }
         else if(choiceMain == 5){
             startDay(companyName, inventory, name, customers, advertiser, day, locations, advertisements, supplier, reputation);
-            reputation += 1/(customers+1);
+            if(prevCustomers < customers){
+                reputation += 0.2;
+            }
+            else{
+                reputation -= 0.1;
+            }
             if(inventory[4] < supplierPrices[advertiser-1]){
                 system("cls");
                 cout << "You cannot afford your advertiser!" << endl;
                 cout << "They have quit!" << endl;
                 advertiser = 0;
                 system("pause");
-                reputation -= 1/(customers+1);
+                reputation -= 0.05;
             }
             else if(advertiser != 0){
                 inventory[4] -= supplierPrices[advertiser-1];
@@ -162,7 +173,7 @@ int main(){
                 cout << "They have quit!" << endl;
                 supplier = 0;
                 system("pause");
-                reputation -= 1/(customers+1);
+                reputation -= 0.05;
             }
             else if(supplier != 0){
                 inventory[4] -= supplierPrices[supplier-1];
@@ -171,9 +182,9 @@ int main(){
                 system("cls");
                 cout << "You cannot afford your Corner Stores!" << endl;
                 cout << "They have quit!" << endl;
+                reputation -= 0.01*locations[1];
                 locations[1] = 0;
                 system("pause");
-                reputation -= 1/(customers+1);
             }
             else if(locations[1] != 0){
                 inventory[4] -= locations[1]*20;
@@ -182,9 +193,9 @@ int main(){
                 system("cls");
                 cout << "You cannot afford your Strip Malls!" << endl;
                 cout << "They have quit!" << endl;
+                reputation -= 0.03*locations[2];
                 locations[2] = 0;
                 system("pause");
-                reputation -= 1/(customers+1);
             }
             else if(locations[2] != 0){
                 inventory[4] -= locations[2]*150;
@@ -193,9 +204,9 @@ int main(){
                 system("cls");
                 cout << "You cannot afford your Recruitment Offices!" << endl;
                 cout << "They have quit!" << endl;
+                reputation -= 0.05*locations[3];
                 locations[3] = 0;
                 system("pause");
-                reputation -= 1/(customers+1);
             }
             else if(locations[3] != 0){
                 inventory[4] -= locations[3]*500;
@@ -204,9 +215,9 @@ int main(){
                 system("cls");
                 cout << "You cannot afford your Websites!" << endl;
                 cout << "They have quit!" << endl;
+                reputation -= 0.07*locations[4];
                 locations[4] = 0;
                 system("pause");
-                reputation -= 1/(customers+1);
             }
             else if(locations[4] != 0){
                 inventory[4] -= locations[4]*1000;
@@ -215,9 +226,9 @@ int main(){
                 system("cls");
                 cout << "You cannot afford your Sponsorships!" << endl;
                 cout << "They have quit!" << endl;
+                reputation -= 0.09*locations[5];
                 locations[5] = 0;
                 system("pause");
-                reputation -= 1/(customers+1);
             }
             else if(locations[5] != 0){
                 inventory[4] -= locations[1]*5000;
@@ -226,9 +237,9 @@ int main(){
                 system("cls");
                 cout << "You cannot afford your newspaper ads!" << endl;
                 cout << "They have quit!" << endl;
+                reputation -= 0.01*advertisements[0];
                 advertisements[0] = 0;
                 system("pause");
-                reputation -= 1/(customers+1);
             }
             else if(advertisements != 0){
                 inventory[4] -= advertisements[0]*10;
@@ -237,9 +248,9 @@ int main(){
                 system("cls");
                 cout << "You cannot afford your radio ads!" << endl;
                 cout << "They have quit!" << endl;
+                reputation -= 0.03*advertisements[1];
                 advertisements[1] = 0;
                 system("pause");
-                reputation -= 1/(customers+1);
             }
             else if(advertisements != 0){
                 inventory[4] -= advertisements[1]*30;
@@ -248,9 +259,9 @@ int main(){
                 system("cls");
                 cout << "You cannot afford your television ads!" << endl;
                 cout << "They have quit!" << endl;
+                reputation -= 0.05*advertisements[2];
                 advertisements[2] = 0;
                 system("pause");
-                reputation -= 1/(customers+1);
             }
             else if(advertisements != 0){
                 inventory[4] -= advertisements[2]*100;
@@ -259,9 +270,9 @@ int main(){
                 system("cls");
                 cout << "You cannot afford your celebrity endorsements!" << endl;
                 cout << "They have quit!" << endl;
+                reputation -= 0.07*advertisements[3];
                 advertisements[3] = 0;
                 system("pause");
-                reputation -= 1/(customers+1);
             }
             else if(advertisements != 0){
                 inventory[4] -= advertisements[3]*1500;
@@ -272,7 +283,13 @@ int main(){
             cout << "How much money would you like to add? ";
             cin >> choiceMain;
             inventory[4] += choiceMain;
-            cout << "$" << choiceMain << " dollars have been added!" << endl;
+            cout << "$" << choiceMain << " has been added!" << endl;
+            system("pause");
+        }
+        else if(choiceMain == 979 && name == "debug" && companyName == "debug"){
+            system("cls");
+            cout << "Your reputation is currently " << setprecision(2) << fixed << reputation << endl;
+            cout << setprecision(0);
             system("pause");
         }
     }
