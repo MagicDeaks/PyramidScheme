@@ -1,6 +1,7 @@
 #include <iostream>
 #include <windows.h>
 #include <iomanip>
+#include <math.h>
 
 using namespace std;
 
@@ -1262,7 +1263,7 @@ void startDay(string companyName, double inventory[5], string name, int &custome
 
     cout << name << "'s Day " << day << " Statistics" << endl;
     lineBreak(companyName);
-    newCustomers = (int)(rand()%(advertiser + 2)*locations[0]
+    newCustomers = ceil((rand()%(advertiser + 2)*locations[0]
                     + rand()%(advertiser*2 + 3)*locations[1]
                     + rand()%(advertiser*3 + 4)*locations[2]
                     + rand()%(advertiser*3 + 7)*locations[3]
@@ -1271,7 +1272,7 @@ void startDay(string companyName, double inventory[5], string name, int &custome
                     + advertisements[0]*advertiser*1
                     + advertisements[1]*advertiser*2
                     + advertisements[2]*advertiser*3
-                    + advertisements[3]*advertiser*4)*reputation;
+                    + advertisements[3]*advertiser*4)*reputation);
 
     if(inventory[0] < newCustomers){
         newCustomers = (int)inventory[0];
