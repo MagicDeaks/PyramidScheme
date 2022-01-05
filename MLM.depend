@@ -4,8 +4,9 @@
 	<windows.h>
 	<iomanip>
 
-1640813831 source:c:\users\deaco\desktop\coding\c++\c++ workspace\compscifinal\main.cpp
+1640814342 source:c:\users\deaco\desktop\coding\c++\c++ workspace\compscifinal\main.cpp
 	<iostream>
 	<windows.h>
 	<iomanip>
+	<math.h>
 
