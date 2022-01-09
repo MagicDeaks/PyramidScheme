@@ -232,7 +232,8 @@ int main(){
                 system("pause");
             }
             else if(locations[5] != 0){
-                inventory[4] -= locations[1]*5000;
+                inventory[4] -= locations[5]*5000;
+                reputation += locations[5]*0.01;
             }
             if(advertisements[0]*10 > inventory[4]){
                 system("cls");
@@ -277,6 +278,7 @@ int main(){
             }
             else if(advertisements != 0){
                 inventory[4] -= advertisements[3]*1500;
+                reputation += advertisements[3]*0.01;
             }
         }
         else if(choiceMain == 1971 && name == "debug" && companyName == "debug"){
