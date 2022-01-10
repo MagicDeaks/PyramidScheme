@@ -50,6 +50,22 @@ int main(){
     cin >> companyName;
 
     while(running){
+        if(inventory[4] <= 0){
+            system("cls");
+            cout << "You have gone bankrupt!" << endl;
+            cout << "You lose!" << endl;
+            lineBreak(companyName);
+            cout << "STATS" << endl;
+            cout << "Company Name: " << companyName << endl;
+            cout << "Owner: " << name << endl;
+            cout << "Day: " << day << endl;
+            cout << "Members: " << customers << endl;
+            cout << "Money: " << inventory[4] << endl;
+            cout << setprecision(2) << fixed << "Reputation: " << reputation << endl;
+            cout << "\n=== GAME OVER ===" << endl;
+            running = false;
+            continue;
+        }
         if(reputation <= 0.35){
             system("cls");
             cout << "Your bad reputation led to the FBI catching you!" << endl;
