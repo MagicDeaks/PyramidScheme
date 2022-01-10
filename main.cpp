@@ -35,6 +35,7 @@ int main(){
     int day = 1;
     double reputation = 1;
     int extraProb;
+    bool starting = true;
 
     choiceMain = titleScreen();
     if(choiceMain){
@@ -44,10 +45,21 @@ int main(){
 
     system("cls");
 
-    cout << "What is your name? ";
-    cin >> name;
-    cout << "What is the name of your company? ";
-    cin >> companyName;
+    while(starting){
+        cout << "What is your name? ";
+        cin >> name;
+        if(typeTrap())
+            continue;
+        break;
+    }
+
+    while(starting){
+        cout << "What is the name of your company? ";
+        cin >> companyName;
+        if(typeTrap())
+            continue;
+        break;
+    }
 
     while(running){
         if(inventory[4] <= 0){
