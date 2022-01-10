@@ -469,7 +469,7 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
                             }
                         }
                         else if(choiceSupply == 4){
-                            if(inventory[4] < quantity*13.62){
+                            if(inventory[4] < quantity*10.00){
                                 system("cls");
                                 cout << "You do not have enough money!" << endl;
                                 system("pause");
@@ -1290,7 +1290,7 @@ void startDay(string companyName, double inventory[5], string name, int &custome
                     + advertisements[0]*advertiser*1
                     + advertisements[1]*advertiser*2
                     + advertisements[2]*advertiser*3
-                    + advertisements[3]*advertiser*4)*reputation);
+                    + advertisements[3]*advertiser*4)*reputation)+1;
 
     if(inventory[0] < newCustomers){
         newCustomers = (int)inventory[0];
