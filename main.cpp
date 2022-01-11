@@ -5,37 +5,51 @@
 
 using namespace std;
 
+// Method Headers
+
+// "Convenience" methods (repetitive to type, used a lot)
 void lineBreak(string companyName);
 void printInventory(double inventory[5]);
-
 bool typeTrap();
 
+// Menus
 int titleScreen();
 void supplierMenu(string companyName, double inventory[5], int supplier, string name);
 void advertiserMenu(string companyName, double inventory[5], int advertiser, string name, int advertisements[4]);
 void employmentMenu(string companyName, double inventory[5], int &supplier, int &advertiser, string name);
 void locationMenu(string companyName, double inventory[5], string name, int locations[6]);
+
+// Run the day
 void startDay(string companyName, double inventory[5], string name, int &customers, int advertiser, int &day, int locations[6], int advertisements[4], int supplier, double reputation);
 
+// Name lookup tables
 string suppliers(int id);
 string advertisers(int id);
 
 int main(){
+    // Declare Variables
+
     string name, companyName;
     bool running = true;
+
+    // Inventory indexes: 0 = Containers, 1 = Chalk, 2 = Paper, 3 = Ink, 4 = Money
     double inventory[5] = {0, 0, 0, 0, 100};
     int locations[6] = {0, 0, 0, 0, 0, 0};
     int advertisements[4] = {0, 0, 0, 0};
     double supplierPrices[10] = {10.50, 13.70, 20.00, 52.60, 120.00, 258.90, 372.10, 785.30, 1000.00, 1000000.00};
-    int choiceMain;
-    int supplier = 0;
-    int prevCustomers = 0;
-    int customers = 0;
-    int advertiser = 0;
     int day = 1;
     double reputation = 1;
+
+    int supplier = 0;
+    int advertiser = 0;
+    int prevCustomers = 0;
+    int customers = 0;
+
     int extraProb;
     bool starting = true;
+    int choiceMain;
+
+    // Run title screen then begin game
 
     choiceMain = titleScreen();
     if(choiceMain){
@@ -44,6 +58,8 @@ int main(){
     }
 
     system("cls");
+
+    // Store name of company and player name in their respective variables
 
     while(starting){
         cout << "What is your name? ";
@@ -61,8 +77,14 @@ int main(){
         break;
     }
 
+    //Start main game loop
+
     while(running){
+        // Check for win/loss based on money, reputation, and customers
+
         if(inventory[4] <= 0){
+            // If player is out of money they lose
+
             system("cls");
             cout << "You have gone bankrupt!" << endl;
             cout << "You lose!" << endl;
@@ -79,6 +101,8 @@ int main(){
             continue;
         }
         if(reputation <= 0.35){
+            // If player's reputation is below the threshold they lose
+
             system("cls");
             cout << "Your bad reputation led to the FBI catching you!" << endl;
             cout << "You lose!" << endl;
@@ -95,6 +119,7 @@ int main(){
             continue;
         }
         if(customers >= 7800000000){
+            // If player's customer count is above the threshold they win
             system("cls");
             cout << "Everyone in the world has joined your scheme!" << endl;
             cout << "The company has collapsed due to lack of new customers and you walk away rich!" << endl;
@@ -111,9 +136,14 @@ int main(){
             running = false;
             continue;
         }
+
+        // After two weeks extras become possible
+
         if(day > 14){
             extraProb = rand()%100+1;
             if(extraProb == 17){
+                // 1/100 chance they earn some money
+
                 system("cls");
                 cout << "Your recent insider trading was hugely successful!" << endl;
                 cout << "You made " << inventory[4]*0.1 << setprecision(2) << fixed << " dollars!" << endl;
@@ -122,6 +152,8 @@ int main(){
                 system("pause");
             }
             if(extraProb == 29){
+                // 1/100 chance they lose some money
+
                 system("cls");
                 cout << "Your recent insider trading was discovered by the FBI!" << endl;
                 cout << "You lost " << inventory[4]*0.1 << setprecision(2) << fixed << " dollars!" << endl;
@@ -130,14 +162,20 @@ int main(){
                 system("pause");
             }
         }
+
+        // Print main menu and take player input
+
         system("cls");
         prevCustomers = customers;
+
         cout << companyName << " Portfolio" << endl;
         cout << "Day " << day << endl;
         cout << "Members: " << customers << endl;
+
         lineBreak(companyName);
         printInventory(inventory);
         lineBreak(companyName);
+
         cout << "[0] Exit Game" << endl;
         cout << "[1] Supplier" << endl;
         cout << "[2] Advertising" << endl;
@@ -148,6 +186,8 @@ int main(){
         cin >> choiceMain;
         if(typeTrap())
             continue;
+
+        // If input is 0, then exit the game
 
         if(choiceMain == 0){
             char exit;
@@ -165,18 +205,33 @@ int main(){
                 continue;
             }
         }
+
+        // If input is 1, then enter the supplier menu
+
         else if(choiceMain == 1){
             supplierMenu(companyName, inventory, supplier, name);
         }
+
+        // If input is 2, then enter the advertiser menu
+
         else if(choiceMain == 2){
             advertiserMenu(companyName, inventory, advertiser, name, advertisements);
         }
+
+        // If input is 3, then enter the employment menu
+
         else if(choiceMain == 3){
             employmentMenu(companyName, inventory, supplier, advertiser, name);
         }
+
+        // If input is 4, then enter the locations menu
+
         else if(choiceMain == 4){
             locationMenu(companyName, inventory, name, locations);
         }
+
+        // If input is 5, then begin the day
+
         else if(choiceMain == 5){
             startDay(companyName, inventory, name, customers, advertiser, day, locations, advertisements, supplier, reputation);
             if(prevCustomers < customers){
@@ -185,6 +240,9 @@ int main(){
             else{
                 reputation -= 0.1;
             }
+
+            // If player cannot afford the services they have purchased, then they lose those services and their reputation goes down
+
             if(inventory[4] < supplierPrices[advertiser-1]){
                 system("cls");
                 cout << "You cannot afford your advertiser!" << endl;
@@ -309,7 +367,12 @@ int main(){
                 reputation += advertisements[3]*0.01;
             }
         }
+
+        // Debugging menus only available if both the player and company names are set to 'debug'
+
         else if(choiceMain == 1971 && name == "debug" && companyName == "debug"){
+            // Add money to inventory
+
             system("cls");
             cout << "How much money would you like to add? ";
             cin >> choiceMain;
@@ -318,6 +381,8 @@ int main(){
             system("pause");
         }
         else if(choiceMain == 979 && name == "debug" && companyName == "debug"){
+            // Check current reputation stat
+
             system("cls");
             cout << "Your reputation is currently " << setprecision(2) << fixed << reputation << endl;
             cout << setprecision(0);
@@ -329,20 +394,38 @@ int main(){
 }
 
 int titleScreen(){
-    system("cls");
+    // Displays the title screen and asks the player if they would like to begin
 
-    int choice;
-    cout << "$$\\      $$\\           $$\\   $$\\     $$\\       $$\\                                    $$\\\n$$$\\    $$$ |          $$ |  $$ |    \\__|      $$ |                                   $$ |\n$$$$\\  $$$$ |$$\\   $$\\ $$ |$$$$$$\\   $$\\       $$ |      $$$$$$\\ $$\\    $$\\  $$$$$$\\  $$ |\n$$\\$$\\$$ $$ |$$ |  $$ |$$ |\\_$$  _|  $$ |      $$ |     $$  __$$\\\\$$\\  $$  |$$  __$$\\ $$ |\n$$ \\$$$  $$ |$$ |  $$ |$$ |  $$ |    $$ |      $$ |     $$$$$$$$ |\\$$\\$$  / $$$$$$$$ |$$ |\n$$ |\\$  /$$ |$$ |  $$ |$$ |  $$ |$$\\ $$ |      $$ |     $$   ____| \\$$$  /  $$   ____|$$ |\n$$ | \\_/ $$ |\\$$$$$$  |$$ |  \\$$$$  |$$ |      $$$$$$$$\\\\$$$$$$$\\   \\$  /   \\$$$$$$$\\ $$ |\n\\__|     \\__| \\______/ \\__|   \\____/ \\__|      \\________|\\_______|   \\_/     \\_______|\\__|\n\n\n\n$$\\      $$\\                     $$\\                  $$\\     $$\\                         \n$$$\\    $$$ |                    $$ |                 $$ |    \\__|                        \n$$$$\\  $$$$ | $$$$$$\\   $$$$$$\\  $$ |  $$\\  $$$$$$\\ $$$$$$\\   $$\\ $$$$$$$\\   $$$$$$\\      \n$$\\$$\\$$ $$ | \\____$$\\ $$  __$$\\ $$ | $$  |$$  __$$\\\\_$$  _|  $$ |$$  __$$\\ $$  __$$\\     \n$$ \\$$$  $$ | $$$$$$$ |$$ |  \\__|$$$$$$  / $$$$$$$$ | $$ |    $$ |$$ |  $$ |$$ /  $$ |    \n$$ |\\$  /$$ |$$  __$$ |$$ |      $$  _$$<  $$   ____| $$ |$$\\ $$ |$$ |  $$ |$$ |  $$ |    \n$$ | \\_/ $$ |\\$$$$$$$ |$$ |      $$ | \\$$\\ \\$$$$$$$\\  \\$$$$  |$$ |$$ |  $$ |\\$$$$$$$ |    \n\\__|     \\__| \\_______|\\__|      \\__|  \\__| \\_______|  \\____/ \\__|\\__|  \\__| \\____$$ |    \n                                                                            $$\\   $$ |    \n                                                                            \\$$$$$$  |    \n                                                                             \\______/" << endl;
+    // Text art generated at 'https://patorjk.com/software/taag/'
 
-    cout << " ___    _____ _____ _____ _____ _____\n|   |  |   __|_   _|  _  | __  |_   _|\n| | |  |__   | | | |     |    -| | |\n|___|  |_____| |_| |__|__|__|__| |_|\n" << endl;
-    cout << endl;
-    cout << "\n ___      _____ __ __ _____ _____\n|_  |    |   __|  |  |     |_   _|\n _| |_   |   __|-   -|-   -| | |\n|_____|  |_____|__|__|_____| |_|\n" << endl;
-    cout << ">>> ";
-    cin >> choice;
-    return choice;
+    bool running = true;
+
+    while(running){
+        system("cls");
+
+        int choice;
+
+        // "Multi Level Marketing"
+
+        cout << "$$\\      $$\\           $$\\   $$\\     $$\\       $$\\                                    $$\\\n$$$\\    $$$ |          $$ |  $$ |    \\__|      $$ |                                   $$ |\n$$$$\\  $$$$ |$$\\   $$\\ $$ |$$$$$$\\   $$\\       $$ |      $$$$$$\\ $$\\    $$\\  $$$$$$\\  $$ |\n$$\\$$\\$$ $$ |$$ |  $$ |$$ |\\_$$  _|  $$ |      $$ |     $$  __$$\\\\$$\\  $$  |$$  __$$\\ $$ |\n$$ \\$$$  $$ |$$ |  $$ |$$ |  $$ |    $$ |      $$ |     $$$$$$$$ |\\$$\\$$  / $$$$$$$$ |$$ |\n$$ |\\$  /$$ |$$ |  $$ |$$ |  $$ |$$\\ $$ |      $$ |     $$   ____| \\$$$  /  $$   ____|$$ |\n$$ | \\_/ $$ |\\$$$$$$  |$$ |  \\$$$$  |$$ |      $$$$$$$$\\\\$$$$$$$\\   \\$  /   \\$$$$$$$\\ $$ |\n\\__|     \\__| \\______/ \\__|   \\____/ \\__|      \\________|\\_______|   \\_/     \\_______|\\__|\n\n\n\n$$\\      $$\\                     $$\\                  $$\\     $$\\                         \n$$$\\    $$$ |                    $$ |                 $$ |    \\__|                        \n$$$$\\  $$$$ | $$$$$$\\   $$$$$$\\  $$ |  $$\\  $$$$$$\\ $$$$$$\\   $$\\ $$$$$$$\\   $$$$$$\\      \n$$\\$$\\$$ $$ | \\____$$\\ $$  __$$\\ $$ | $$  |$$  __$$\\\\_$$  _|  $$ |$$  __$$\\ $$  __$$\\     \n$$ \\$$$  $$ | $$$$$$$ |$$ |  \\__|$$$$$$  / $$$$$$$$ | $$ |    $$ |$$ |  $$ |$$ /  $$ |    \n$$ |\\$  /$$ |$$  __$$ |$$ |      $$  _$$<  $$   ____| $$ |$$\\ $$ |$$ |  $$ |$$ |  $$ |    \n$$ | \\_/ $$ |\\$$$$$$$ |$$ |      $$ | \\$$\\ \\$$$$$$$\\  \\$$$$  |$$ |$$ |  $$ |\\$$$$$$$ |    \n\\__|     \\__| \\_______|\\__|      \\__|  \\__| \\_______|  \\____/ \\__|\\__|  \\__| \\____$$ |    \n                                                                            $$\\   $$ |    \n                                                                            \\$$$$$$  |    \n                                                                             \\______/" << endl;
+
+        // "START" and "EXIT"
+
+        cout << " ___    _____ _____ _____ _____ _____\n|   |  |   __|_   _|  _  | __  |_   _|\n| | |  |__   | | | |     |    -| | |\n|___|  |_____| |_| |__|__|__|__| |_|\n" << endl;
+        cout << endl;
+        cout << "\n ___      _____ __ __ _____ _____\n|_  |    |   __|  |  |     |_   _|\n _| |_   |   __|-   -|-   -| | |\n|_____|  |_____|__|__|_____| |_|\n" << endl;
+        cout << ">>> ";
+        cin >> choice;
+        if(typeTrap())
+            continue;
+
+        return choice;
+    }
 }
 
 void lineBreak(string companyName){
+    // Generates a line that is as long as the company name plus " Portfolio"
+
     for(int unsigned i = 0; i < companyName.length(); i++){
             cout << "=";
         }
@@ -350,6 +433,8 @@ void lineBreak(string companyName){
 }
 
 void printInventory(double inventory[5]){
+    // Prints the players current inventory
+
     cout << "Inventory" << endl;
     cout << "Containers: \t" << inventory[0] << " units" << endl;
     cout << "Chalk: \t\t" << inventory[1] << " mg" << endl;
@@ -360,6 +445,8 @@ void printInventory(double inventory[5]){
 }
 
 bool typeTrap(){
+    // Returns true if the player has entered an invalid input
+
     if(!cin.good()){
         cout << "ERROR: Invalid Input" << endl;
         cin.clear();
@@ -371,17 +458,23 @@ bool typeTrap(){
 }
 
 void supplierMenu(string companyName, double inventory[5], int supplier, string name){
+    // Allows the player to buy and sell materials
+
     bool running = true;
     int choiceSupply;
     while(running){
         system("cls");
         if(supplier == 0){
+            // If the player does not have a supplier they cannot buy/sell materials
+
             cout << "You do not have a supplier!" << endl;
             system("pause");
             running = false;
             continue;
         }
         else{
+            // Prints the supplier menu and asks if they player would like to buy or sell
+
             cout << companyName << " Supplier:" << endl;
             cout << suppliers(supplier) << endl;
             lineBreak(companyName);
@@ -396,12 +489,16 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
                 continue;
 
             if(choiceSupply == 0){
+                // If the input is 0 then exit the menu
+
                 running = false;
                 continue;
             }
             else if(choiceSupply == 1){
                 bool choosing = true;
                 while(choosing){
+                    // If the input is 1 then enter the buying menu
+
                     system("cls");
                     cout << companyName << " Supplier:" << endl;
                     cout << suppliers(supplier) << endl;
@@ -419,16 +516,22 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
                         continue;
 
                     if(choiceSupply < 0 || choiceSupply > 4){
+                        // Prevent the player from entering the number of an item that isn't in the list
+
                         system("cls");
                         cout << "That item does not exist!" << endl;
                         system("pause");
                         continue;
                     }
                     else if(choiceSupply == 0){
+                        // If the input is 0 then exit the menu
+
                         choosing = false;
                         continue;
                     }
                     else{
+                        // If their input is valid, then ask how many they want of that item
+
                         int quantity;
                         cout << "How many do you want? ";
                         cin >> quantity;
@@ -436,11 +539,16 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
                             continue;
 
                         if(quantity < 0){
+                            // Prevent the player from buying a negative amount of items
+
                             system("cls");
                             cout << "You cannot buy a negative amount!" << endl;
                             system("pause");
                             continue;
                         }
+
+                        // Check to see if the player can afford the materials, then purchase them and add to the players inventory, while subtracting from their money
+
                         else if(choiceSupply == 1){
                             if(inventory[4] < quantity*0.17){
                                 system("cls");
@@ -499,6 +607,8 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
             else if(choiceSupply == 2){
                 bool choosing = true;
                 while(choosing){
+                    // If input is 2 then enter the selling menu
+
                     system("cls");
                     cout << companyName << " Supplier:" << endl;
                     cout << suppliers(supplier) << endl;
@@ -516,16 +626,22 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
                         continue;
 
                     if(choiceSupply < 0 || choiceSupply > 4){
+                        // Same as buying menu, prevent invalid options
+
                         system("cls");
                         cout << "That item does not exist!" << endl;
                         system("pause");
                         continue;
                     }
                     else if(choiceSupply == 0){
+                        // If the input is 0 then exit the menu
+
                         choosing = false;
                         continue;
                     }
                     else{
+                        // If the input is valid then ask how much they want to sell
+
                         int quantity;
                         cout << "How many do you want to sell? ";
                         cin >> quantity;
@@ -533,11 +649,16 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
                             continue;
 
                         if(quantity < 0){
+                            // Prevent the player from selling a negative amount of materials
+
                             system("cls");
                             cout << "You cannot sell a negative amount!" << endl;
                             system("pause");
                             continue;
                         }
+
+                        // If they have enough materials to sell, then subtract them from their inventory and add the appropriate amount to their money
+
                         else if(choiceSupply == 1 && quantity <= inventory[0]){
                             inventory[4] += quantity*0.10;
                             inventory[0] -= quantity;
