@@ -9,18 +9,18 @@ using namespace std;
 
 // "Convenience" methods (repetitive to type, used a lot)
 void lineBreak(string companyName);
-void printInventory(double inventory[5]);
+void printInventory(long double inventory[5]);
 bool typeTrap();
 
 // Menus
 int titleScreen();
-void supplierMenu(string companyName, double inventory[5], int supplier, string name);
-void advertiserMenu(string companyName, double inventory[5], int advertiser, string name, int advertisements[4]);
-void employmentMenu(string companyName, double inventory[5], int &supplier, int &advertiser, string name);
-void locationMenu(string companyName, double inventory[5], string name, int locations[6]);
+void supplierMenu(string companyName, long double inventory[5], int supplier, string name);
+void advertiserMenu(string companyName, long double inventory[5], int advertiser, string name, int advertisements[4]);
+void employmentMenu(string companyName, long double inventory[5], int &supplier, int &advertiser, string name);
+void locationMenu(string companyName, long double inventory[5], string name, int locations[6]);
 
 // Run the day
-void startDay(string companyName, double inventory[5], string name, int &customers, int advertiser, int &day, int locations[6], int advertisements[4], int supplier, double reputation);
+void startDay(string companyName, long double inventory[5], string name, long int &customers, int advertiser, int &day, int locations[6], int advertisements[4], int supplier, long double reputation);
 
 // Name lookup tables
 string suppliers(int id);
@@ -33,17 +33,17 @@ int main(){
     bool running = true;
 
     // Inventory indexes: 0 = Containers, 1 = Chalk, 2 = Paper, 3 = Ink, 4 = Money
-    double inventory[5] = {0, 0, 0, 0, 100};
+    long double inventory[5] = {0, 0, 0, 0, 100};
     int locations[6] = {0, 0, 0, 0, 0, 0};
     int advertisements[4] = {0, 0, 0, 0};
     double supplierPrices[10] = {10.50, 13.70, 20.00, 52.60, 120.00, 258.90, 372.10, 785.30, 1000.00, 1000000.00};
     int day = 1;
-    double reputation = 1;
+    long double reputation = 1;
 
     int supplier = 0;
     int advertiser = 0;
-    int prevCustomers = 0;
-    int customers = 0;
+    long int prevCustomers = 0;
+    long int customers = 0;
 
     int extraProb;
     bool starting = true;
@@ -57,11 +57,10 @@ int main(){
         return 0;
     }
 
-    system("cls");
-
     // Store name of company and player name in their respective variables
 
     while(starting){
+        system("cls");
         cout << "What is your name? ";
         cin >> name;
         if(typeTrap())
@@ -421,6 +420,7 @@ int titleScreen(){
 
         return choice;
     }
+    return 1;
 }
 
 void lineBreak(string companyName){
@@ -432,7 +432,7 @@ void lineBreak(string companyName){
         cout << "==========" << endl;
 }
 
-void printInventory(double inventory[5]){
+void printInventory(long double inventory[5]){
     // Prints the players current inventory
 
     cout << "Inventory" << endl;
@@ -457,7 +457,7 @@ bool typeTrap(){
     return false;
 }
 
-void supplierMenu(string companyName, double inventory[5], int supplier, string name){
+void supplierMenu(string companyName, long double inventory[5], int supplier, string name){
     // Allows the player to buy and sell materials
 
     bool running = true;
@@ -692,33 +692,47 @@ void supplierMenu(string companyName, double inventory[5], int supplier, string 
     }
 }
 
-void advertiserMenu(string companyName, double inventory[5], int advertiser, string name, int advertisements[4]){
+void advertiserMenu(string companyName, long double inventory[5], int advertiser, string name, int advertisements[4]){
+    // Allows player to buy and sell advertisements
+
     bool running = true;
     int choiceAdvertise;
+
+    // Main advertisement loop
+
     while(running){
         system("cls");
         if(advertiser == 0){
+            // Player can only access menu if they have an advertiser
+
             cout << "You do not have an advertiser!" << endl;
             system("pause");
             running = false;
             continue;
         }
         else{
+            // Print menu
+
             cout << companyName << " Advertiser:" << endl;
             cout << advertisers(advertiser) << endl;
+
             lineBreak(companyName);
             printInventory(inventory);
+
             lineBreak(companyName);
             cout << "Newspaper Ads: " << advertisements[0] << endl;
             cout << "Radio Ads: " << advertisements[1] << endl;
             cout << "Television Ads: " << advertisements[2] << endl;
             cout << "Celebrity Endorsements: " << advertisements[3] << endl;
+
             lineBreak(companyName);
             cout << "[0] Exit Menu" << endl;
             cout << "[1] Purchase" << endl;
             cout << "[2] Sell" << endl;
+
             cout << name << " >>> ";
             cin >> choiceAdvertise;
+
             if(typeTrap())
                 continue;
 
@@ -729,6 +743,8 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
             else if(choiceAdvertise == 1){
                 bool choosing = true;
                 while(choosing){
+                    // If palyer enters 1, then enter the buying menu
+
                     system("cls");
                     cout << companyName << " Advertiser:" << endl;
                     cout << advertisers(advertiser) << endl;
@@ -749,6 +765,8 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
                     cin >> choiceAdvertise;
                     if(typeTrap())
                         continue;
+
+                    // Same premise as with supplier menu, prevent player from entering invalid options, check if they can afford the purchase, then update the variables - this time with the 'advertisements' variable
 
                     if(choiceAdvertise < 0 || choiceAdvertise > 4){
                         system("cls");
@@ -829,6 +847,8 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
                 }
             }
             else if(choiceAdvertise == 2){
+                // If the player enters 2, then open the seller menu
+
                 bool choosing = true;
                 while(choosing){
                     system("cls");
@@ -851,6 +871,8 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
                     cin >> choiceAdvertise;
                     if(typeTrap())
                         continue;
+
+                    // Again... same thing as with the supplier, prevent invalid options, check if the player has enough to sell, then update the variables
 
                     if(choiceAdvertise < 0 || choiceAdvertise > 4){
                         system("cls");
@@ -904,7 +926,7 @@ void advertiserMenu(string companyName, double inventory[5], int advertiser, str
     }
 }
 
-void employmentMenu(string companyName, double inventory[5], int &supplier, int &advertiser, string name){
+void employmentMenu(string companyName, long double inventory[5], int &supplier, int &advertiser, string name){
     bool running = true;
     int choiceEmploy;
     while(running){
@@ -1242,7 +1264,7 @@ void employmentMenu(string companyName, double inventory[5], int &supplier, int 
     }
 }
 
-void locationMenu(string companyName, double inventory[5], string name, int locations[6]){
+void locationMenu(string companyName, long double inventory[5], string name, int locations[6]){
     bool running = true;
     int choiceLocation;
     while(running){
@@ -1407,8 +1429,8 @@ void locationMenu(string companyName, double inventory[5], string name, int loca
     }
 }
 
-void startDay(string companyName, double inventory[5], string name, int &customers, int advertiser, int &day, int locations[6], int advertisements[4], int supplier, double reputation){
-    int newCustomers;
+void startDay(string companyName, long double inventory[5], string name, long int &customers, int advertiser, int &day, int locations[6], int advertisements[4], int supplier, long double reputation){
+    long int newCustomers;
 
     system("cls");
 
