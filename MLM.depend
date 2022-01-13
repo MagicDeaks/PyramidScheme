@@ -10,3 +10,12 @@
 	<iomanip>
 	<math.h>
 
+1642044046 source:d:\coding\c++\c++ workspace\compscifinal\main.cpp
+	<iostream>
+	<windows.h>
+	<iomanip>
+	<math.h>
+	<string>
+	<fstream>
+	<sstream>
+

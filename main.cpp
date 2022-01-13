@@ -2,6 +2,9 @@
 #include <windows.h>
 #include <iomanip>
 #include <math.h>
+#include <string>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -25,6 +28,10 @@ void startDay(string companyName, long double inventory[5], string name, long in
 // Name lookup tables
 string suppliers(int id);
 string advertisers(int id);
+
+void createSaveFile(int saveID);
+void saveData(int saveID, int day, long double inventory[5], int locations[6], int advertisements[4], long double reputation, int supplier, int advertiser, long int prevCustomers, long int customers, string name, string companyName);
+void loadData(int& saveID, int& day, long double inventory[5], int locations[6], int advertisements[4], long double& reputation, int& supplier, int& advertiser, long int& prevCustomers, long int& customers, string& name, string& companyName);
 
 int main(){
     // Declare Variables
@@ -58,6 +65,48 @@ int main(){
     }
 
     // Store name of company and player name in their respective variables
+
+    while(starting){
+        system("cls");
+        cout << "Please select a save file:\n\t[1]\n\t[2]\n\t[3]\n\t[4]\n\t[5]\n >>> ";
+        cin >> choiceMain;
+
+        if(choiceMain > 5 || choiceMain < 1){
+            continue;
+        }
+
+        ostringstream text1;
+        ostringstream msg1;
+
+        msg1 << "saves/" << choiceMain << ".txt";
+
+        ifstream in_file(msg1.str());
+
+        string start = "day:";
+        string ends = "inventory[0]";
+
+        text1 << in_file.rdbuf();
+        string str1 = text1.str();
+
+        //try{
+            unsigned str1_start = str1.find(start);
+            unsigned str1_end = str1.find(ends);
+
+            string str1New = str1.substr(str1_start, str1_end);
+
+            system("pause");
+            starting = false;
+            loadData(choiceMain, day, inventory, locations, advertisements, reputation, supplier, advertiser, prevCustomers, customers, name, companyName);
+
+        //} catch(out_of_range){
+
+
+          //  createSaveFile(choiceMain);
+          //  starting = true;
+        //}
+
+
+    }
 
     while(starting){
         system("cls");
@@ -1558,5 +1607,122 @@ string advertisers(int id){
     }
     else{
         return "ERROR: Does Not Exist";
+    }
+}
+
+void createSaveFile(int saveID){
+    ostringstream text2;
+    ostringstream msg2;
+    msg2 << "saves/" << saveID << ".txt";
+    string str2 = "day:\ninventory[0]:\ninventory[1]:\ninventory[2]:\ninventory[3]:\ninventory[4]:\nlocations[0]:\nlocations[1]:\nlocations[2]:\nlocations[3]:\nlocations[4]:\nlocations[5]:\nadvertisements[0]:\nadvertisements[1]:\nadvertisements[2]:\nadvertisements[3]:\nreputation:\nsupplier:\nadvertiser:\nprevCustomers:\ncustomers:\nname:\ncompanyName:\nEND";
+    ofstream out_file(msg2.str());
+    out_file << str2;
+    return;
+}
+
+void loadData(int& saveID, int& day, long double inventory[5], int locations[6], int advertisements[4], long double& reputation, int& supplier, int& advertiser, long int& prevCustomers, long int& customers, string& name, string& companyName){
+    string startDEL, stopDEL, strNew;
+    unsigned firstLim, lastLim;
+
+    string delimiters[23] = {"day:", "inventory[0]:", "inventory[1]:", "inventory[2]:", "inventory[3]:", "inventory[4]:", "locations[0]:", "locations[1]:", "locations[2]:", "locations[3]:", "locations[4]:", "locations[5]:", "advertisements[0]:", "advertisements[1]:", "advertisements[2]:", "advertisements[3]:", "reputation:", "supplier:", "advertiser:", "prevCustomers:", "customers:", "name:", "companyName:"};
+
+    ostringstream text3;
+    ostringstream msg3;
+
+    msg3 << "saves/" << saveID << ".txt";
+    ifstream in_file(msg3.str());
+    text3 << in_file.rdbuf();
+    string str3 = text3.str();
+
+    for(int i = 0; i < 23; i++){
+
+        firstLim = 0;
+        lastLim = 0;
+
+        startDEL = delimiters[i];
+        if(i != 22){
+            stopDEL = delimiters[i+1];
+        }
+        else{
+            stopDEL = "END";
+        }
+
+        cout << "test" << i << endl;
+
+        firstLim = str3.find(startDEL);
+        lastLim = str3.find(stopDEL);
+        strNew = str3.substr(firstLim, lastLim-firstLim);
+        strNew = strNew.substr(delimiters[i].size());
+        strNew.erase(strNew.length()-1);
+
+        if(i == 0){
+            day = atoi(strNew.data());
+        }
+        if(i == 1){
+            inventory[0] = atoi(strNew.data());
+        }
+        if(i == 2){
+            inventory[1] = atoi(strNew.data());
+        }
+        if(i == 3){
+            inventory[2] = atoi(strNew.data());
+        }
+        if(i == 4){
+            inventory[3] = atoi(strNew.data());
+        }
+        if(i == 5){
+            inventory[4] = atoi(strNew.data())/100.00;
+        }
+        if(i == 6){
+            locations[0] = atoi(strNew.data());
+        }
+        if(i == 7){
+            locations[1] = atoi(strNew.data());
+        }
+        if(i == 8){
+            locations[2] = atoi(strNew.data());
+        }
+        if(i == 9){
+            locations[3] = atoi(strNew.data());
+        }
+        if(i == 10){
+            locations[4] = atoi(strNew.data());
+        }
+        if(i == 11){
+            locations[5] = atoi(strNew.data());
+        }
+        if(i == 12){
+            advertisements[0] = atoi(strNew.data());
+        }
+        if(i == 13){
+            advertisements[1] = atoi(strNew.data());
+        }
+        if(i == 14){
+            advertisements[2] = atoi(strNew.data());
+        }
+        if(i == 15){
+            advertisements[3] = atoi(strNew.data());
+        }
+        if(i == 16){
+            reputation = atoi(strNew.data())/100.00;
+        }
+        if(i == 17){
+            supplier = atoi(strNew.data());
+        }
+        if(i == 18){
+            advertiser = atoi(strNew.data());
+        }
+        if(i == 19){
+            prevCustomers = atoi(strNew.data());
+        }
+        if(i == 20){
+            customers = atoi(strNew.data());
+        }
+        if(i == 21){
+            name = strNew;
+        }
+        if(i == 22){
+            companyName = strNew;
+        }
     }
 }
