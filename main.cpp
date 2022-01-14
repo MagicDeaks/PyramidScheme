@@ -1692,7 +1692,7 @@ void loadData(int& saveID, int& day, long double inventory[5], int locations[6],
         lastLim = str3.find(stopDEL);
         strNew = str3.substr(firstLim, lastLim-firstLim);
         strNew = strNew.substr(delimiters[i].size());
-        strNew = regex_replace(strNew, newlines_re, "");
+        strNew = strNew.substr(strNew.size()-1);
 
         if(i == 0){
             day = atoi(strNew.data());
