@@ -82,7 +82,7 @@ int main(){
 
         msg1 << "saves/" << choiceMain << ".txt";
 
-        ifstream in_file(msg1.str());
+        ifstream in_file(msg1.str().c_str());
 
         string start = "day:";
         string ends = "inventory[0]";
@@ -118,9 +118,17 @@ int main(){
             }
             else if(choiceMain == 2){
                 createSaveFile(saveID);
-                inventory[5] = {0, 0, 0, 0, 100};
-                locations[6] = {0, 0, 0, 0, 0, 0};
-                advertisements[4] = {0, 0, 0, 0};
+                inventory[0] = 0;
+                inventory[1] = 0;
+                inventory[2] = 0;
+                inventory[3] = 0;
+                inventory[4] = 100;
+                for(int i = 0; i < 6; i++){
+                    locations[i] = 0;
+                }
+                for(int i = 0; i < 4; i++){
+                    advertisements[i] = 0;
+                }
                 day = 1;
                 reputation = 1;
 
@@ -1648,7 +1656,7 @@ void createSaveFile(int saveID){
     ostringstream msg2;
     msg2 << "saves/" << saveID << ".txt";
     string str2 = "day:\ninventory[0]:\ninventory[1]:\ninventory[2]:\ninventory[3]:\ninventory[4]:\nlocations[0]:\nlocations[1]:\nlocations[2]:\nlocations[3]:\nlocations[4]:\nlocations[5]:\nadvertisements[0]:\nadvertisements[1]:\nadvertisements[2]:\nadvertisements[3]:\nreputation:\nsupplier:\nadvertiser:\nprevCustomers:\ncustomers:\nname:\ncompanyName:\nEND";
-    ofstream out_file(msg2.str());
+    ofstream out_file(msg2.str().c_str());
     out_file << str2;
     return;
 }
@@ -1663,7 +1671,7 @@ void loadData(int& saveID, int& day, long double inventory[5], int locations[6],
     ostringstream msg3;
 
     msg3 << "saves/" << saveID << ".txt";
-    ifstream in_file(msg3.str());
+    ifstream in_file(msg3.str().c_str());
     text3 << in_file.rdbuf();
     string str3 = text3.str();
 
@@ -1763,7 +1771,7 @@ void saveData(int saveID, int day, long double inventory[5], int locations[6], i
     msg5 << "saves/" << saveID << ".txt";
     ostringstream msg4;
     msg4 << "day:" << day << "\ninventory[0]:" << inventory[0] << "\ninventory[1]:" << inventory[1] << "\ninventory[2]:" << inventory[2] << "\ninventory[3]:" << inventory[3] << "\ninventory[4]:" << inventory[4]*100 << "\nlocations[0]:" << locations[0] << "\nlocations[1]:" << locations[1] << "\nlocations[2]:" << locations[2] << "\nlocations[3]:" << locations[3] << "\nlocations[4]:" << locations[4] << "\nlocations[5]:" << locations[5] << "\nadvertisements[0]:" << advertisements[0] << "\nadvertisements[1]:" << advertisements[1] << "\nadvertisements[2]:" << advertisements[2] << "\nadvertisements[3]:" << advertisements[3] << "\nreputation:" << reputation*100 << "\nsupplier:" << supplier << "\nadvertiser:" << advertiser << "\nprevCustomers:" << prevCustomers << "\ncustomers:" << customers << "\nname:" << name << "\ncompanyName:" << companyName;
-    ofstream out_file(msg5.str());
+    ofstream out_file(msg5.str().c_str());
     out_file << msg4.str();
     out_file.close();
 }
