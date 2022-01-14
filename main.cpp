@@ -118,6 +118,17 @@ int main(){
             }
             else if(choiceMain == 2){
                 createSaveFile(saveID);
+                inventory[5] = {0, 0, 0, 0, 100};
+                locations[6] = {0, 0, 0, 0, 0, 0};
+                advertisements[4] = {0, 0, 0, 0};
+                day = 1;
+                reputation = 1;
+
+                supplier = 0;
+                advertiser = 0;
+                prevCustomers = 0;
+                customers = 0;
+
                 starting = true;
                 break;
             }
@@ -1668,8 +1679,6 @@ void loadData(int& saveID, int& day, long double inventory[5], int locations[6],
         else{
             stopDEL = "END";
         }
-
-        cout << "test" << i << endl;
 
         firstLim = str3.find(startDEL);
         lastLim = str3.find(stopDEL);
