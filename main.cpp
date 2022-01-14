@@ -188,7 +188,7 @@ int main(){
             running = false;
             continue;
         }
-        if(customers >= 7800000000){
+        if(customers >= 35000000){
             // If player's customer count is above the threshold they win
             system("cls");
             cout << "Everyone in the world has joined your scheme!" << endl;
