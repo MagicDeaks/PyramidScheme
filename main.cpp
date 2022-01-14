@@ -38,6 +38,7 @@ int main(){
 
     string name, companyName;
     bool running = true;
+    int saveID;
 
     // Inventory indexes: 0 = Containers, 1 = Chalk, 2 = Paper, 3 = Ink, 4 = Money
     long double inventory[5] = {0, 0, 0, 0, 100};
@@ -70,6 +71,7 @@ int main(){
         system("cls");
         cout << "Please select a save file:\n\t[1]\n\t[2]\n\t[3]\n\t[4]\n\t[5]\n >>> ";
         cin >> choiceMain;
+        saveID = choiceMain;
 
         if(choiceMain > 5 || choiceMain < 1){
             continue;
@@ -88,24 +90,43 @@ int main(){
         text1 << in_file.rdbuf();
         string str1 = text1.str();
 
-        //try{
+
+
+        try{
             unsigned str1_start = str1.find(start);
             unsigned str1_end = str1.find(ends);
 
             string str1New = str1.substr(str1_start, str1_end);
 
-            system("pause");
             starting = false;
-            loadData(choiceMain, day, inventory, locations, advertisements, reputation, supplier, advertiser, prevCustomers, customers, name, companyName);
+            loadData(saveID, day, inventory, locations, advertisements, reputation, supplier, advertiser, prevCustomers, customers, name, companyName);
 
-        //} catch(out_of_range){
+            cout << str1New << endl;
 
+            cout << "\nWould you like to continue this game?" << endl;
+            cout << "[0] Yes\n[1] No\n[2] Reset File" << endl;
+            cout << " >>> ";
+            cin >> choiceMain;
 
-          //  createSaveFile(choiceMain);
-          //  starting = true;
-        //}
+            if(choiceMain == 0){
+                starting = false;
+                continue;
+            }
+            else if(choiceMain == 1){
+                starting = true;
+                continue;
+            }
+            else if(choiceMain == 2){
+                createSaveFile(saveID);
+                starting = true;
+                break;
+            }
 
-
+        } catch(out_of_range){
+            createSaveFile(saveID);
+            starting = true;
+            break;
+        }
     }
 
     while(starting){
@@ -130,6 +151,7 @@ int main(){
     while(running){
         // Check for win/loss based on money, reputation, and customers
 
+        saveData(saveID, day, inventory, locations, advertisements, reputation, supplier, advertiser, prevCustomers, customers, name, companyName);
         if(inventory[4] <= 0){
             // If player is out of money they lose
 
@@ -1725,4 +1747,14 @@ void loadData(int& saveID, int& day, long double inventory[5], int locations[6],
             companyName = strNew;
         }
     }
+}
+
+void saveData(int saveID, int day, long double inventory[5], int locations[6], int advertisements[4], long double reputation, int supplier, int advertiser, long int prevCustomers, long int customers, string name, string companyName){
+    ostringstream msg5;
+    msg5 << "saves/" << saveID << ".txt";
+    ostringstream msg4;
+    msg4 << "day:" << day << "\ninventory[0]:" << inventory[0] << "\ninventory[1]:" << inventory[1] << "\ninventory[2]:" << inventory[2] << "\ninventory[3]:" << inventory[3] << "\ninventory[4]:" << inventory[4]*100 << "\nlocations[0]:" << locations[0] << "\nlocations[1]:" << locations[1] << "\nlocations[2]:" << locations[2] << "\nlocations[3]:" << locations[3] << "\nlocations[4]:" << locations[4] << "\nlocations[5]:" << locations[5] << "\nadvertisements[0]:" << advertisements[0] << "\nadvertisements[1]:" << advertisements[1] << "\nadvertisements[2]:" << advertisements[2] << "\nadvertisements[3]:" << advertisements[3] << "\nreputation:" << reputation*100 << "\nsupplier:" << supplier << "\nadvertiser:" << advertiser << "\nprevCustomers:" << prevCustomers << "\ncustomers:" << customers << "\nname:" << name << "\ncompanyName:" << companyName;
+    ofstream out_file(msg5.str());
+    out_file << msg4.str();
+    out_file.close();
 }
