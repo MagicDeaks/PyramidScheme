@@ -141,7 +141,7 @@ int main(){
                 break;
             }
 
-        } catch(const out_of_range& oor){
+        } catch(int out_of_range){
             createSaveFile(saveID);
             starting = true;
             break;
