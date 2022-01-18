@@ -927,6 +927,8 @@ void advertiserMenu(string companyName, long double inventory[5], int advertiser
 }
 
 void employmentMenu(string companyName, long double inventory[5], int &supplier, int &advertiser, string name){
+    // Allows player to choose an advertiser/supplier
+
     bool running = true;
     int choiceEmploy;
     while(running){
@@ -944,12 +946,16 @@ void employmentMenu(string companyName, long double inventory[5], int &supplier,
             continue;
 
         if(choiceEmploy == 0){
+            // If the choice is 0, exit the menu
+
             running = false;
             continue;
         }
         else if(choiceEmploy == 1){
             bool choosing = true;
             while(choosing){
+                // If the choice is 1, enter the Supplier menu
+
                 system("cls");
                 cout << companyName << " Supplier:" << endl;
                 cout << suppliers(supplier) << endl;
@@ -973,15 +979,22 @@ void employmentMenu(string companyName, long double inventory[5], int &supplier,
                     continue;
 
                 if(choiceEmploy > 10 || choiceEmploy < 0){
+                    // Prevent an invalid option from being selected
+
                     system("cls");
                     cout << "That item does not exist!" << endl;
                     system("pause");
                     continue;
                 }
                 else if(choiceEmploy == 0){
+                    // If the choice is 0, exit the menu
+
                     choosing = false;
                     continue;
                 }
+
+                // Check if they can afford the supplier, then subtract their money and change their supplier
+
                 else if(choiceEmploy == 1){
                     if(inventory[4] < 10.50){
                         system("cls");
@@ -1105,6 +1118,8 @@ void employmentMenu(string companyName, long double inventory[5], int &supplier,
             }
         }
         else if(choiceEmploy == 2){
+            // If the choice is 2, enter the Advertiser menu
+
             bool choosing = true;
             while(choosing){
                 system("cls");
@@ -1130,15 +1145,22 @@ void employmentMenu(string companyName, long double inventory[5], int &supplier,
                     continue;
 
                 if(choiceEmploy > 10 || choiceEmploy < 0){
+                    // Prevent invalid input
+
                     system("cls");
                     cout << "That item does not exist!" << endl;
                     system("pause");
                     continue;
                 }
                 else if(choiceEmploy == 0){
+                    // If the choice is 0, exit the menu
+
                     choosing = false;
                     continue;
                 }
+
+                // Check if the player can afford the advertiser, then subtract their money and change their advertiser
+
                 else if(choiceEmploy == 1){
                     if(inventory[4] < 10.50){
                         system("cls");
@@ -1265,6 +1287,8 @@ void employmentMenu(string companyName, long double inventory[5], int &supplier,
 }
 
 void locationMenu(string companyName, long double inventory[5], string name, int locations[6]){
+    // Allows players to manage their locations
+
     bool running = true;
     int choiceLocation;
     while(running){
@@ -1289,17 +1313,23 @@ void locationMenu(string companyName, long double inventory[5], string name, int
             continue;
 
         if(choiceLocation == 0){
+            // If the choice is 0, exit the menu
+
             running = false;
             continue;
         }
         else if(choiceLocation == 1){
+            // If the choice is 1, enter the buying menu
+
             bool choosing = true;
             while(choosing){
                 system("cls");
                 cout << companyName << " Locations" << endl;
                 lineBreak(companyName);
+
                 printInventory(inventory);
                 lineBreak(companyName);
+
                 cout << "Lawn Stands: \t\t" << locations[0] << endl;
                 cout << "Corner Stores: \t\t" << locations[1] << endl;
                 cout << "Strip Malls: \t\t" << locations[2] << endl;
@@ -1307,6 +1337,7 @@ void locationMenu(string companyName, long double inventory[5], string name, int
                 cout << "Websites: \t\t" << locations[4] << endl;
                 cout << "Sponsorships: \t\t" << locations[5] << endl;
                 lineBreak(companyName);
+
                 cout << "[0] Exit Menu" << endl;
                 cout << "[1] Lawn Stands         $30.00" << endl;
                 cout << "[2] Corner Stores       $20.00 per day" << endl;
@@ -1314,20 +1345,28 @@ void locationMenu(string companyName, long double inventory[5], string name, int
                 cout << "[4] Recruitment Offices $500.00 per day" << endl;
                 cout << "[5] Websites            $1000.00 per day" << endl;
                 cout << "[6] Sponsorships        $5000.00 per day" << endl;
+
                 cout << name << " >>> ";
                 cin >> choiceLocation;
                 if(typeTrap())
                     continue;
 
                 if(choiceLocation == 0){
+                    // If choice is 0, exit the menu
+
                     choosing = false;
                     continue;
                 }
                 else if(choiceLocation > 6 || choiceLocation < 0){
+                    // Prevent invalid input
+
                     system("cls");
                     cout << "That item does not exist!" << endl;
                     system("pause");
                 }
+
+                // Check if player can afford the location, then subtract their money and add to their locations
+
                 else if(choiceLocation == 1 && inventory[4] >= 30){
                     locations[0] += 1;
                     inventory[4] -= 30;
@@ -1353,6 +1392,8 @@ void locationMenu(string companyName, long double inventory[5], string name, int
                     inventory[4] -= 5000;
                 }
                 else{
+                    // If the player cannot afford the location then do not purchase the location
+
                     system("cls");
                     cout << "You do not have enough money!" << endl;
                     system("pause");
@@ -1360,12 +1401,16 @@ void locationMenu(string companyName, long double inventory[5], string name, int
             }
         }
         else if(choiceLocation == 2){
+            // If the choice is 2, enter the selling menu
+
             bool choosing = true;
             while(choosing){
                 system("cls");
                 cout << companyName << " Locations" << endl;
+
                 lineBreak(companyName);
                 printInventory(inventory);
+
                 lineBreak(companyName);
                 cout << "Lawn Stands: \t\t" << locations[0] << endl;
                 cout << "Corner Stores: \t\t" << locations[1] << endl;
@@ -1373,6 +1418,7 @@ void locationMenu(string companyName, long double inventory[5], string name, int
                 cout << "Recruitment Offices: \t" << locations[3] << endl;
                 cout << "Websites: \t\t" << locations[4] << endl;
                 cout << "Sponsorships: \t\t" << locations[5] << endl;
+
                 lineBreak(companyName);
                 cout << "[0] Exit Menu" << endl;
                 cout << "[1] Lawn Stands         $15.00" << endl;
@@ -1381,20 +1427,28 @@ void locationMenu(string companyName, long double inventory[5], string name, int
                 cout << "[4] Recruitment Offices $350.00" << endl;
                 cout << "[5] Websites            $800.00" << endl;
                 cout << "[6] Sponsorships        $4500.00" << endl;
+
                 cout << name << " >>> ";
                 cin >> choiceLocation;
                 if(typeTrap())
                     continue;
 
                 if(choiceLocation == 0){
+                    // If the choice is 0, exit the menu
+
                     choosing = false;
                     continue;
                 }
                 else if(choiceLocation > 6 || choiceLocation < 0){
+                    // Prevent invalid input
+
                     system("cls");
                     cout << "That item does not exist!" << endl;
                     system("pause");
                 }
+
+                // If the player has enough of that location to sell, add to their money and subtract their locations
+
                 else if(choiceLocation == 1 && locations[0] > 0){
                     locations[0] -= 1;
                     inventory[4] += 15;
@@ -1420,6 +1474,8 @@ void locationMenu(string companyName, long double inventory[5], string name, int
                     inventory[4] += 4500;
                 }
                 else{
+                    // If the player does not have enough locations, do not add to their money or subtract their locations
+
                     system("cls");
                     cout << "You do not own that location!" << endl;
                     system("pause");
@@ -1430,12 +1486,16 @@ void locationMenu(string companyName, long double inventory[5], string name, int
 }
 
 void startDay(string companyName, long double inventory[5], string name, long int &customers, int advertiser, int &day, int locations[6], int advertisements[4], int supplier, long double reputation){
+    // Main mechanic of the game, run the day and generate new customers while retaining old customers
+
     long int newCustomers;
 
     system("cls");
 
     cout << name << "'s Day " << day << " Statistics" << endl;
     lineBreak(companyName);
+
+    // Generate new customers based on locations, advertiser, advertisements, and reputation (min = 1)
     newCustomers = ceil((rand()%(advertiser + 2)*locations[0]
                     + rand()%(advertiser*2 + 3)*locations[1]
                     + rand()%(advertiser*3 + 4)*locations[2]
@@ -1447,6 +1507,7 @@ void startDay(string companyName, long double inventory[5], string name, long in
                     + advertisements[2]*advertiser*3
                     + advertisements[3]*advertiser*4)*reputation)+1;
 
+    // Prevent player from selling product they don't have
     if(inventory[0] < newCustomers){
         newCustomers = (int)inventory[0];
     }
@@ -1460,11 +1521,14 @@ void startDay(string companyName, long double inventory[5], string name, long in
         customers = (int)inventory[3]/5;
     }
 
+    // Subtract the required materials from their inventory
     inventory[0] -= newCustomers;
     inventory[1] -= newCustomers*35;
     inventory[2] -= customers;
     inventory[3] -= customers*5;
 
+    // Print out the player's earnings for the day
+    // Selling price increases with better suppliers
     cout << "New Customers: " << newCustomers << endl;
     cout << "Returning Customers: " << customers << endl;
     lineBreak(companyName);
@@ -1476,6 +1540,7 @@ void startDay(string companyName, long double inventory[5], string name, long in
     cout << "Total Returns: $" << newCustomers*19.99*(1+supplier/10) + customers*4.99*(1+supplier/10) << endl;
     cout << setprecision(0);
 
+    // Update day, money, and customer variables
     inventory[4] += newCustomers*19.99*(1+supplier/10) + customers*4.99*(1+supplier/10);
     customers += newCustomers;
     day++;
@@ -1484,6 +1549,8 @@ void startDay(string companyName, long double inventory[5], string name, long in
 }
 
 string suppliers(int id){
+    // Lookup tables for supplier names (probably could have used an array)
+
     if(id == 0){
         return "None";
     }
@@ -1523,6 +1590,8 @@ string suppliers(int id){
 }
 
 string advertisers(int id){
+    // Lookup tables for advertiser names (probably could have used an array)
+
     if(id == 0){
         return "None";
     }
